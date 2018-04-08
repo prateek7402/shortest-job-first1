@@ -108,7 +108,7 @@ for(int i=0;i<num;i++)
 		{
         int u;
 		u=waiting(i);
-        pr[j]=1+((u-arrival[j])/brust[j]);
+        pr[j]=1+((u-arrival[j])/brust[j]);//the actual algorithm is being executed
         }
 	}
     int mx=max(pr,40);
