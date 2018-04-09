@@ -1,0 +1,139 @@
+#include<stdio.h>
+int brust[40];
+int proc[40];
+int arrival[40];
+int  prior[40];
+
+////////////////////////////////function to find the maximum of the certain array in which the size and the array are passed as the parameters//////////////// 
+
+int max(int size,int a[])
+{
+    int max;
+	max=a[0];
+    int j=0;
+    for(int i=1; i<size; i++)
+        {
+            if(a[i] > max)
+            {
+                    max = a[i];
+                j=i;
+            }
+        }
+    
+    return j;
+}
+
+//////////////////function to find the waiting time of the process in which the burst time is being passed as parameter //////////////////
+
+int waiting(int a)
+{ 
+    int i = 0;
+    for(int j = 0; a < i; j++)
+    {
+        i = i + brust[j];
+    }
+    return i;    
+     
+}
+
+///////////////////////////////////main meathord to call other methords//////////////////////////////////////////////////////
+
+int main()
+{
+      
+    int i;
+	int j;
+	int num;
+	int  pos;
+	int temp;
+	int  sum;
+	float avg_turn_t;
+    float avg_wait_t;
+	sum = 0;
+	int p;
+	p=0;
+    printf("Please enter the total number of processes that you want to enter:\t");
+    scanf("%d", &num);
+    printf("\nPleaes enter Burst Time:");
+    for(int i = 0; i < num; i++)
+    {
+          printf("\nProcess number [%d]\n",i);
+          printf("pleasse enter the Process Burst Time:\t");
+          scanf("%d", &brust[i]);
+          proc[i] = i;
+    }
+    printf("\nPlease enter the process Arrival Time: \n");
+    for(int i = 0; i < num; i++)
+    {
+      	printf("\nProcess number [%d]\n",i);
+        printf("Please enter the Process Arrival Time:\t");
+        scanf("%d", &arrival[i]);
+        proc[i] = i;
+    }
+
+///////////////////////////sorting is been done here on the burst time array , process array and the arrival time array/////////////////////////// 
+
+     for(int i=0; i<num; i++)
+	 {
+        for(int j=i+1; j<num; j++)
+		{
+            if(arrival[i]>arrival[j])
+			{
+                            temp=brust[i];
+                            brust[i]=brust[j];
+                            brust[j]=temp;
+
+                            temp=proc[i];
+                            proc[i]=proc[j];
+                            proc[j]=temp;
+                            
+                            temp=arrival[i];
+                            arrival[i]=arrival[j];
+                            arrival[j]=temp;
+            }
+        }
+     }
+  
+//////////////////////////////////////////the mian methord to find the waiting time starts from here//////////////////////////////////////////////// 
+  
+for(int i=0;i<num;i++)
+{
+    int pr[40];
+    if(i==0)
+	{
+    p=p+brust[i];
+    printf("\n Process is %d with brust time %d with time%d  \n",proc[i],brust[i],p);
+    }
+    else
+	{
+    for(int j=i;j<num;j++)
+	{
+        if(arrival[j]<p)
+		{
+        int u;
+		u=waiting(i);
+        pr[j]=1+((u-arrival[j])/brust[j]);//the actual algorithm/formula is used here
+        }
+	}
+    int mx=max(pr,40);
+            if(mx!=i)
+			{
+                temp=arrival[i];
+                                arrival[i]=arrival[mx];
+                                arrival[mx]=temp;
+
+                                temp=brust[i];
+                                brust[i]=brust[mx];
+                                brust[mx]=temp;
+
+                                temp=proc[i];
+                                proc[i]=proc[mx];
+                                proc[mx]=temp;
+            }
+            p=p+brust[i];
+            printf("\n The Process is: %d",proc[i]);
+			printf("\n The process brust time is: %d",burst[i]);
+			printf("\n The Process ends with time: %d",p);
+            }
+    }
+ }
